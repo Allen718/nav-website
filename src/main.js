@@ -11,13 +11,12 @@ const simplifyUrl = (url) => {
         .replace('www.', '')
         .replace('/\/.*', '')
 }
-
 const render = () => {
     $siteList.find('li:not(.last)').remove()
     hashMap.forEach((node, index) => {
         const $li = $(`<li>
                      <div class="site">
-                    <div class="logo"><img src=${node.logoIco}></div>
+                    <div class="logo"><img src="${node.logoIco}" onerror="src='images/default.jpg';onerror=null"></div>
                     <div class="link">${simplifyUrl(node.url)}</div>
                     <div class="close">
                     <svg class="icon">
@@ -37,10 +36,9 @@ const render = () => {
             hashMap.splice(index, 1)
             render()
         })
-
     })
-
 }
+
 render()
 
 $('.addButton').on("click", fn => {
@@ -53,6 +51,7 @@ $('.addButton').on("click", fn => {
     hashMap.push({ logo: simplifyUrl(url)[0], url: url, logoIco: (url + '/favicon.ico') })
     render()
 })
+
 window.onbeforeunload = () => {
     console.log('页面要关闭了')
     const string = JSON.stringify(hashMap)
